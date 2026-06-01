@@ -31,7 +31,8 @@ namespace MelonLoader.Utils
             '(',
             ')',
             '?',
-            '{n            '}',
+            '{', 
+            '}',  
             '!'
         };
 
