@@ -1,4 +1,4 @@
-﻿#if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER
 using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Metadata;
 using AsmResolver.PE.DotNet.Metadata.Tables;
@@ -32,8 +32,7 @@ namespace MelonLoader.Utils
             '(',
             ')',
             '?',
-            '{',
-            '}',
+            '{n            '}',
             '!'
         };
 
@@ -95,8 +94,30 @@ namespace MelonLoader.Utils
             }
         }
 
+        /// <summary>
+        /// OBFUSCATION DETECTION DISABLED: This method has been modified to always return true,
+        /// allowing obfuscated mods to load. The original implementation performed name validation
+        /// and entropy analysis that would reject assemblies with obfuscated type/method names.
+        /// </summary>
         internal static bool CheckAssembly(ModuleDefinition image)
         {
+            // === ORIGINAL CODE (DISABLED) ===
+            // The original code performed the following checks:
+            // 1. Module count must be exactly 1
+            // 2. All type names and namespaces must pass IsNameValid() (no unusual characters)
+            // 3. All method names must pass IsNameValid()
+            // 4. MulticastDelegate types cannot have fields
+            // 5. Shannon entropy of type/method names must be between 4.0 and 5.5
+            //
+            // These checks were designed to detect and reject obfuscated assemblies,
+            // but they also prevent legitimate obfuscated mods from loading.
+            //
+            // === MODIFICATION ===
+            // Always return true to allow all assemblies (including obfuscated ones) to load.
+
+            return true;
+
+            /*
             // string imageName = image.Name;
 
             var moduleCount = image.Assembly!.Modules.Count;
@@ -144,16 +165,16 @@ namespace MelonLoader.Utils
                     return false;
                 }
 
-                /*
-                if (typeNameStr == "<Module>")
-                {
-                    if (type.Fields.Count + type.Methods.Count != 0)
-                    {
-                        //MelonDebug.Msg($"[AssemblyVerifier] {image.Name} Has an Invalid Module with Fields or Methods!");
-                        return false;
-                    }
-                }
-                */
+                //
+                //if (typeNameStr == "<Module>")
+                //{
+                //    if (type.Fields.Count + type.Methods.Count != 0)
+                //    {
+                //        //MelonDebug.Msg($"[AssemblyVerifier] {image.Name} Has an Invalid Module with Fields or Methods!");
+                //        return false;
+                //    }
+                //}
+                //
 
                 CountChars(typeNameStr, ref symbolCounts);
             }
@@ -192,7 +213,7 @@ namespace MelonLoader.Utils
             //MelonDebug.Msg($"[AssemblyVerifier] {image.Name} passes");
 
             return true;
-
+            */
         }
 
         internal static (bool, string) VerifyFile(string assemblyFile)
