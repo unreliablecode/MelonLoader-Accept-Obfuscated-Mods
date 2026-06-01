@@ -1,4 +1,3 @@
-#if NET6_0_OR_GREATER
 using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Metadata;
 using AsmResolver.PE.DotNet.Metadata.Tables;
@@ -53,7 +52,7 @@ namespace MelonLoader.Utils
 
             foreach (char c in name)
             {
-                // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/lexical-structure#643-identifiers
+                // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/lexical-structure643-identifiers
                 if (CharUnicodeInfo.GetUnicodeCategory(c) is 
                     // Letter_Character
                     UnicodeCategory.UppercaseLetter // Lu
@@ -246,4 +245,3 @@ namespace MelonLoader.Utils
         }
     }
 }
-#endif
